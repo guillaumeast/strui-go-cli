@@ -10,6 +10,9 @@ cross-build: clean
 test: cross-build
 	@sh ./scripts/make.sh test
 
+release: test
+	@sh ./scripts/make.sh release
+
 local-build: clean
 	@sh ./scripts/make.sh local-build
 
@@ -19,4 +22,4 @@ install: local-build
 uninstall:
 	@sh ./scripts/make.sh uninstall
 
-.PHONY: local-build cross-build install test uninstall clean
+.PHONY: clean cross-build test release local-build install uninstall

@@ -46,6 +46,7 @@ main()
     if   [ "${command}" = "clean" ]; then
         printf "\n🧹  ${ORANGE}Cleaning...${RESET}\n"
         rm -r "${BUILD_DIR}" 2>/dev/null || true
+        rm -r "${VOLUME_LOCAL}" 2>/dev/null || true
     	printf "${GREEN}✔${RESET} Cleaned${RESET}\n"
     elif [ "${command}" = "local-build" ]; then
         printf "\n📦  ${ORANGE}Compiling...${RESET}\n"
@@ -55,6 +56,10 @@ main()
         printf "\n🌍  ${ORANGE}Cross-compiling...${RESET}\n"
         mkdir -p "${BUILD_DIR}"
         cross_build
+    elif [ "${command}" = "release" ]; then
+        printf "\n🚀  ${ORANGE}Releasing...${RESET}\n"
+        release
+    	printf "${GREEN}✔${RESET} Released!${RESET}\n\n🎉\n"
     elif [ "${command}" = "install" ]; then
         printf "\n🛠️  ${ORANGE}Installing...${RESET}\n"
         install
@@ -92,44 +97,6 @@ build()
     else
         printf "${RED}⤬${RESET} Failed → ${RED}${out}${RESET}\n"
     fi
-}
-
-# ────────────────────────────────────────────────────────────────
-# INSTALL / UNINSTALL
-# ────────────────────────────────────────────────────────────────
-
-install()
-{
-    bin_path="${BUILD_DIR}/$(get_bin_file_name)"
-    install_dir="$(get_install_dir)"
-    cli_path="${install_dir}/$(get_cli_file_name)"
-
-    if ! mkdir -p "${install_dir}"; then
-        printf "${RED}⤬ Error: Unable to create install dir: ${install_dir}${RESET}\n" >&2
-        return 1
-    fi
-
-    if cp "${bin_path}" "${cli_path}" && chmod +x "${cli_path}"; then
-    	printf "${GREEN}✔${RESET} Installed to ${CYAN}${cli_path}${RESET}\n"
-    else
-        printf "${RED}⤬ Error: Unable to copy ${bin_path} → ${cli_path}${RESET}\n" >&2
-        return 1
-	fi
-    
-    case ":$PATH:" in
-        *:"${install_dir}":*) ;;
-        *) printf "${ORANGE}⚠️  Warning: ${install_dir} is not in your PATH${RESET}\n" >&2 ;;
-    esac
-}
-
-uninstall()
-{
-    if rm -f "$(get_install_dir)/$(get_cli_file_name)"; then
-    	printf "${GREEN}✔${RESET} Uninstalled${RESET}\n"
-    else
-        printf "${RED}⤬ Failed to uninstall${RESET}\n" >&2
-        return 1
-	fi
 }
 
 # ────────────────────────────────────────────────────────────────
@@ -192,6 +159,54 @@ test_in_docker()
     print_results
 
     return $FAILED
+}
+
+# ────────────────────────────────────────────────────────────────
+# TESTS
+# ────────────────────────────────────────────────────────────────
+
+# TODO
+release()
+{
+    (cd "${BUILD_DIR}" && for f in *; do zip "${f}.zip" "$f" >/dev/null; done)
+}
+
+# ────────────────────────────────────────────────────────────────
+# INSTALL / UNINSTALL
+# ────────────────────────────────────────────────────────────────
+
+install()
+{
+    bin_path="${BUILD_DIR}/$(get_bin_file_name)"
+    install_dir="$(get_install_dir)"
+    cli_path="${install_dir}/$(get_cli_file_name)"
+
+    if ! mkdir -p "${install_dir}"; then
+        printf "${RED}⤬ Error: Unable to create install dir: ${install_dir}${RESET}\n" >&2
+        return 1
+    fi
+
+    if cp "${bin_path}" "${cli_path}" && chmod +x "${cli_path}"; then
+    	printf "${GREEN}✔${RESET} Installed to ${CYAN}${cli_path}${RESET}\n"
+    else
+        printf "${RED}⤬ Error: Unable to copy ${bin_path} → ${cli_path}${RESET}\n" >&2
+        return 1
+	fi
+    
+    case ":$PATH:" in
+        *:"${install_dir}":*) ;;
+        *) printf "${ORANGE}⚠️  Warning: ${install_dir} is not in your PATH${RESET}\n" >&2 ;;
+    esac
+}
+
+uninstall()
+{
+    if rm -f "$(get_install_dir)/$(get_cli_file_name)"; then
+    	printf "${GREEN}✔${RESET} Uninstalled${RESET}\n"
+    else
+        printf "${RED}⤬ Failed to uninstall${RESET}\n" >&2
+        return 1
+	fi
 }
 
 # ────────────────────────────────────────────────────────────────
