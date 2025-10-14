@@ -126,6 +126,4 @@ printui/
 
 ---
 
-## 👤 Author
-
-Made with ❤️ by [@guillaumeast](https://github.com/guillaumeast)
+> _“Measure what you see — not what you store.”_ 📏
