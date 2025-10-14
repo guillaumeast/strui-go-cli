@@ -11,7 +11,7 @@ RESET=$(printf "\033[0m")
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 REPO_DIR="${SCRIPT_DIR}/.."
 
-TARGET=stringui
+TARGET=strui
 SRC="${REPO_DIR}/cmd/${TARGET}"
 BUILD_DIR="${REPO_DIR}/bin"
 

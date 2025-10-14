@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-BINARY=${1:-stringui}
+BINARY=${1:-strui}
 [ "$1" ] && shift
 
 RED=$(printf "\033[31m")

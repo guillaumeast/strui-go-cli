@@ -1,4 +1,4 @@
-module printui
+module github.com/guillaumeast/strui-go-cli
 
 go 1.24.3
 

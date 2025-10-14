@@ -6,12 +6,12 @@ import (
 	"strconv"
 	"strings"
 
-	"printui/pkg/stringui"
+	"github.com/guillaumeast/strui-go-cli/pkg/stringui"
 )
 
 func main() {
 	if len(os.Args) < 3 {
-		fmt.Println("Usage: stringui <command> <args...>")
+		fmt.Println("Usage: strui <command> <args...>")
 		os.Exit(1)
 	}
 
@@ -27,7 +27,7 @@ func main() {
 		fmt.Println(stringui.Clean(args[0]))
 	case "split":
 		if len(args) < 2 {
-			fmt.Println("Usage: stringui split <string> <separator>")
+			fmt.Println("Usage: strui split <string> <separator>")
 			os.Exit(1)
 		}
 		parts := strings.Split(args[0], args[1])
@@ -44,7 +44,7 @@ func main() {
 		fmt.Println(strings.Join(args[stringsStart:], separator))
 	case "repeat":
 		if len(args) < 2 {
-			fmt.Println("Usage: stringui repeat <count> <string> [separator]")
+			fmt.Println("Usage: strui repeat <count> <string> [separator]")
 			os.Exit(1)
 		}
 		count, err := strconv.Atoi(args[0])
@@ -63,7 +63,7 @@ func main() {
 		fmt.Println(out)
 	case "count":
 		if len(args) < 2 {
-			fmt.Println("Usage: stringui count <value> <string>")
+			fmt.Println("Usage: strui count <value> <string>")
 			os.Exit(1)
 		}
 		fmt.Println(strings.Count(args[1], args[0]))

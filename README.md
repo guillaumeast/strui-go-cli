@@ -1,13 +1,13 @@
-# 🖨️ **`printui` v1.0.0**
+# 🖨️ **`strui` (Go cli) v1.0.0**
 
-Tiny Unicode‑aware & ANSI‑aware **string CLI** – written in Go – built on top of the public [`stringui`](https://pkg.go.dev/github.com/guillaumeast/stringui) package.
+Tiny Unicode‑aware & ANSI‑aware **string CLI** – written in Go – built on top of the internal public [`stringui package`](https://pkg.go.dev/github.com/guillaumeast/strui-go-cli/pkg/stringui).
 
 [![Go](https://img.shields.io/badge/language-Go-blue)](https://go.dev/)
 [![Type: CLI](https://img.shields.io/badge/type-CLI-lightgrey)](https://en.wikipedia.org/wiki/Command-line_interface)
 [![Platform: Unix/Windows](https://img.shields.io/badge/platform-Unix%20%26%20Windows-darkgreen)](https://en.wikipedia.org/wiki/Unix)
-[![Status: v1.0.0](https://img.shields.io/badge/status-v1.0.0-brightgreen)](https://github.com/guillaumeast/printui/releases/tag/v1.0.0)
+[![Status: v1.0.0](https://img.shields.io/badge/status-v1.0.0-brightgreen)](https://github.com/guillaumeast/strui-go-cli/releases/tag/v1.0.0)
 
-> **`printui`** is the command‑line face of **`stringui`**:  
+> **`strui`** is the command‑line face of **`stringui`** package:  
 > think of it as a minimal, UTF‑8‑smart replacement for `cut`, `wc`, or `tr` that actually *understands* emojis and ANSI escapes.  
 >   
 > The underlying **`stringui`** package is **100 % independent** – import it in *any* Go project without pulling the CLI.
@@ -30,7 +30,7 @@ Tiny Unicode‑aware & ANSI‑aware **string CLI** – written in Go – built o
 ### 🚀 Quick install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/guillaumeast/printui/master/install/install.sh | sh
+go install github.com/guillaumeast/strui-go-cli/cmd/strui@latest
 ```
 
 This will:
@@ -43,7 +43,7 @@ This will:
 
 Test it:
 ```bash
-printui width "$(printf "\033[31m1\n1🛑4\n12\033[0m")"  // → 4
+strui width "$(printf "\033[31m1\n1🛑4\n12\033[0m")"  // → 4
 ```
 
 ---
@@ -51,13 +51,13 @@ printui width "$(printf "\033[31m1\n1🛑4\n12\033[0m")"  // → 4
 ### 📦 Grab the library
 
 ```bash
-go get github.com/guillaumeast/stringui
+go get github.com/guillaumeast/strui-go-cli/pkg/stringui
 ```
 
 Then:
 
 ```go
-import "github.com/guillaumeast/stringui"
+import "github.com/guillaumeast/strui-go-cli/pkg/stringui"
 
 fmt.Println(stringui.Width("\033[31m1\n1🛑4\n12\033[0m"))  // → 4
 ```
@@ -66,18 +66,18 @@ fmt.Println(stringui.Width("\033[31m1\n1🛑4\n12\033[0m"))  // → 4
 
 ## 🖥️ CLI usage
 
-`printui` installs a single executable called **`stringui`**  
-(muscle‑memory friendly for folks migrating from the C++ version).
+`strui` installs a single executable called **`strui`**  
+(muscle‑memory friendly for folks migrating from the [C++ version](https://github.com/guillaumeast/strui-cpp-cli)).
 
 | Command                                                | Description                                   |
 |--------------------------------------------------------|-----------------------------------------------|
-| `stringui width <string>`                              | Return *visual* width (columns) of `string`   |
-| `stringui height <string>`                             | Return number of *lines* in `string`          |
-| `stringui clean <string>`                              | Remove ANSI *escape sequences*                |
-| `stringui split <string> <separator>`                  | Vector‑split `string` on `separator`          |
-| `stringui join ?--separator ?<sep> <...strings...>`    | Join `strings` with optional `separator`      |
-| `stringui repeat <count> <string> ?<separator>`        | Repeat `string` `count` times                 |
-| `stringui count <value> <string>`                      | Count occurrences of `value` in `string`      |
+| `strui width <string>`                                 | Return *visual* width (columns) of `string`   |
+| `strui height <string>`                                | Return number of *lines* in `string`          |
+| `strui clean <string>`                                 | Remove ANSI *escape sequences*                |
+| `strui split <string> <separator>`                     | Vector‑split `string` on `separator`          |
+| `strui join ?--separator ?<sep> <...strings...>`       | Join `strings` with optional `separator`      |
+| `strui repeat <count> <string> ?<separator>`           | Repeat `string` `count` times                 |
+| `strui count <value> <string>`                         | Count occurrences of `value` in `string`      |
 
 > 📚 See [`go-runewidth`](https://github.com/mattn/go-runewidth) for more details on width computing.
 
@@ -98,12 +98,12 @@ make test          # build + tests + multi‑distro checks
 ## 📁 Project structure
 
 ```
-printui/
+strui/
 ├── go.mod
 ├── go.sum
 ├── Makefile
 ├── cmd/
-│   └── stringui/       # CLI entry‑point
+│   └── strui/       	# CLI entry‑point
 │       └── main.go
 ├── pkg/
 │   └── stringui/       # public library
